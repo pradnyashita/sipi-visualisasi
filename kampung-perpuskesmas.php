@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+          ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+          ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -113,7 +113,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+          ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -144,7 +144,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+        ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -175,7 +175,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+          ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -206,7 +206,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+        ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -237,7 +237,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+      ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -268,7 +268,7 @@ if (isset($_POST['submit'])) {
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-    ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+    ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
   FROM kampung 
     LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
     LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -299,7 +299,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+          ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -330,7 +330,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+          ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -362,7 +362,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+        ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -394,7 +394,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+      ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -425,7 +425,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0) as target
+      ROUND((ROUND(AVG(kampung.bayi_lahir_L + kampung.bayi_lahir_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -458,7 +458,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+          ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -488,7 +488,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+          ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -519,7 +519,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+          ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -550,7 +550,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+        ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -581,7 +581,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+          ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -612,7 +612,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+        ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -643,7 +643,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+      ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -674,7 +674,7 @@ if (isset($_POST['submit'])) {
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-    ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+    ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
   FROM kampung 
     LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
     LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -705,7 +705,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+          ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -736,7 +736,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+          ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -768,7 +768,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+        ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -800,7 +800,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+      ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -831,7 +831,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0) as target
+      ROUND((ROUND(AVG(kampung.baduta_L + kampung.baduta_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -864,7 +864,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+          ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -894,7 +894,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+          ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -925,7 +925,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+          ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -956,7 +956,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+        ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -987,7 +987,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+          ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1018,7 +1018,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+        ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1049,7 +1049,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+      ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1080,7 +1080,7 @@ if (isset($_POST['submit'])) {
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
     SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-    ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+    ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
   FROM kampung 
     LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
     LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1111,7 +1111,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+          ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1142,7 +1142,7 @@ if (isset($_POST['submit'])) {
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
           SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-          ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+          ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1174,7 +1174,7 @@ if (isset($_POST['submit'])) {
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
         SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-        ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+        ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
       FROM kampung 
         LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
         LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1206,7 +1206,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+      ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
@@ -1237,7 +1237,7 @@ if (isset($_POST['submit'])) {
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
       SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
-      ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0) as target
+      ROUND((ROUND(AVG(kampung.surviving_infant_L + kampung.surviving_infant_P),0))*0.95) as target
     FROM kampung 
       LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
       LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
