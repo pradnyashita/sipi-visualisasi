@@ -1339,7 +1339,12 @@ if (isset($_POST['submit'])) {
             stacked: false,
             ticks: {
               beginAtZero: true,
-              stepSize: 1,
+              userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
             },
           }]
 
@@ -1393,7 +1398,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1446,7 +1456,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1499,7 +1514,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1552,7 +1572,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1605,7 +1630,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1658,7 +1688,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1711,7 +1746,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1764,7 +1804,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1817,7 +1862,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1870,7 +1920,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1923,7 +1978,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
@@ -1976,7 +2036,12 @@ if (isset($_POST['submit'])) {
                       stacked: true,
                       ticks: {
                       beginAtZero: true,
-                      stepSize: 1,
+                      userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
                       }
                   }]
                 },
