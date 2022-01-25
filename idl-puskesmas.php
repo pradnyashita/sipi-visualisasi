@@ -17,10 +17,6 @@
     <input type="text" id="kabupaten" name="kabupatenform">
   </li>
   <li>
-    <label for="puskesmas">Puskesmas</label>
-    <input type="text" id="puskesmas" name="puskesmasform">
-  </li>
-  <li>
     <label for="tahun">Tahun</label>
     <input type="text" id="tahun" name="tahunform">
   </li>
@@ -34,7 +30,6 @@
 <?php 
 if (isset($_POST['submit'])) {
     $kabupatenForm = $_POST['kabupatenform'];
-    $puskesmasForm = $_POST['puskesmasform'];
     $tahunForm = $_POST['tahunform'];
 
     $con = new mysqli("108.136.175.182","root","sipi","sistem_imunisasi");
@@ -42,23 +37,20 @@ if (isset($_POST['submit'])) {
     $query = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          kampung.nama_kampung as kampung,
           SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          (kampung.surviving_infant_L + kampung.surviving_infant_P) as sasaran
+          (puskesmas.surviving_infant_L + puskesmas.surviving_infant_P) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-          AND puskesmas.id_puskesmas = $puskesmasForm
-        GROUP BY kampung.id_kampung
-        ORDER BY kampung.id_kampung
+        GROUP BY puskesmas.id_puskesmas
+        ORDER BY puskesmas.id_puskesmas
     ");
 
     foreach ($query as $data) {
         $kabupaten[] = $data['kabupaten'];
         $puskesmas[] = $data['puskesmas'];
-        $kampung[] = $data['kampung'];
         $idl[] = $data['idl'];
         $sasaran[] = $data['sasaran'];
     }
@@ -66,23 +58,20 @@ if (isset($_POST['submit'])) {
     $query1 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          kampung.nama_kampung as kampung,
           SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.2) as sasaran
+          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.2) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-          AND puskesmas.id_puskesmas = $puskesmasForm
-        GROUP BY kampung.id_kampung
-        ORDER BY kampung.id_kampung
+        GROUP BY puskesmas.id_puskesmas
+        ORDER BY puskesmas.id_puskesmas
     ");
 
     foreach ($query1 as $data1) {
       $kabupaten1[] = $data1['kabupaten'];
       $puskesmas1[] = $data1['puskesmas'];
-      $kampung1[] = $data1['kampung'];
       $idl1[] = $data1['idl'];
       $sasaran1[] = $data1['sasaran'];
     }
@@ -90,23 +79,20 @@ if (isset($_POST['submit'])) {
     $query2 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          kampung.nama_kampung as kampung,
           SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.4) as sasaran
+          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.4) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-          AND puskesmas.id_puskesmas = $puskesmasForm
-        GROUP BY kampung.id_kampung
-        ORDER BY kampung.id_kampung
+        GROUP BY puskesmas.id_puskesmas
+        ORDER BY puskesmas.id_puskesmas
     ");
 
     foreach ($query2 as $data2) {
       $kabupaten2[] = $data2['kabupaten'];
       $puskesmas2[] = $data2['puskesmas'];
-      $kampung2[] = $data2['kampung'];
       $idl2[] = $data2['idl'];
       $sasaran2[] = $data2['sasaran'];
     }
@@ -114,23 +100,20 @@ if (isset($_POST['submit'])) {
     $query3 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          kampung.nama_kampung as kampung,
           SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.6) as sasaran
+          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.6) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-          AND puskesmas.id_puskesmas = $puskesmasForm
-        GROUP BY kampung.id_kampung
-        ORDER BY kampung.id_kampung
+        GROUP BY puskesmas.id_puskesmas
+        ORDER BY puskesmas.id_puskesmas
     ");
 
     foreach ($query3 as $data3) {
       $kabupaten3[] = $data3['kabupaten'];
       $puskesmas3[] = $data3['puskesmas'];
-      $kampung3[] = $data3['kampung'];
       $idl3[] = $data3['idl'];
       $sasaran3[] = $data3['sasaran'];
     }
@@ -138,23 +121,20 @@ if (isset($_POST['submit'])) {
     $query4 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          kampung.nama_kampung as kampung,
           SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 10 OR MONTH(data_individu.tanggal_idl) = 11 OR MONTH(data_individu.tanggal_idl) = 12) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.8) as sasaran
+          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.8) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-          AND puskesmas.id_puskesmas = $puskesmasForm
-        GROUP BY kampung.id_kampung
-        ORDER BY kampung.id_kampung
+        GROUP BY puskesmas.id_puskesmas
+        ORDER BY puskesmas.id_puskesmas
     ");
 
     foreach ($query4 as $data4) {
         $kabupaten4[] = $data4['kabupaten'];
         $puskesmas4[] = $data4['puskesmas'];
-        $kampung4[] = $data4['kampung'];
         $idl4[] = $data4['idl'];
         $sasaran4[] = $data4['sasaran'];
     }
@@ -195,7 +175,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($kampung) ?>,
+        labels: <?php echo json_encode($puskesmas) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -249,7 +229,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Total Sasaran dan IDL Tahunan Tiap Kampung',
+            text: 'Total Sasaran dan IDL Tahunan Tiap Puskesmas',
             fontSize: 14,
         }
       };
@@ -270,7 +250,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($kampung1) ?>,
+        labels: <?php echo json_encode($puskesmas1) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -324,7 +304,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (20% Sasaran) dan IDL Quarter 1 Tiap Kampung',
+            text: 'Target (20% Sasaran) dan IDL Quarter 1 Tiap Puskesmas',
             fontSize: 14,
         }
       };
@@ -345,7 +325,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($kampung2) ?>,
+        labels: <?php echo json_encode($puskesmas2) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -399,7 +379,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (40% Sasaran) dan IDL Quarter 2 Tiap Kampung',
+            text: 'Target (40% Sasaran) dan IDL Quarter 2 Tiap Puskesmas',
             fontSize: 14,
         }
       };
@@ -420,7 +400,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($kampung3) ?>,
+        labels: <?php echo json_encode($puskesmas3) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -474,7 +454,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (60% Sasaran) dan IDL Quarter 3 Tiap Kampung',
+            text: 'Target (60% Sasaran) dan IDL Quarter 3 Tiap Puskesmas',
             fontSize: 14,
         }
       };
@@ -495,7 +475,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($kampung4) ?>,
+        labels: <?php echo json_encode($puskesmas4) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -549,7 +529,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (80% Sasaran) dan IDL Quarter 4 Tiap Kampung',
+            text: 'Target (80% Sasaran) dan IDL Quarter 4 Tiap Puskesmas',
             fontSize: 14,
         }
       };
