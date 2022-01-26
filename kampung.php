@@ -856,6 +856,1630 @@ if (isset($_POST['submit'])) {
         }
     
 
+    }  elseif ($antigenForm==14 || $antigenForm==15) {
+      $query = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        ");
+
+        foreach ($query as $data) {
+            $kabupaten[] = $data['kabupaten'];
+            $puskesmas[] = $data['puskesmas'];
+            $kampung[] = $data['kampung'];
+            $jumlah[] = $data['jumlah'];
+            $jumlahP[] = $data['jumlahP'];
+            $jumlahL[] = $data['jumlahL'];
+            $target[] = $data['target'];
+        }
+
+        $query1 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+
+        ");
+
+        foreach ($query1 as $data1) {
+            $kabupaten1[] = $data1['kabupaten'];
+            $puskesmas1[] = $data1['puskesmas'];
+            $kampung1[] = $data1['kampung'];
+            $jumlah1[] = $data1['jumlah'];
+            $jumlahP1[] = $data1['jumlahP'];
+            $jumlahL1[] = $data1['jumlahL'];
+            $target1[] = $data1['target'];
+        }
+
+        $query2 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query2 as $data2) {
+            $kabupaten2[] = $data2['kabupaten'];
+            $puskesmas2[] = $data2['puskesmas'];
+            $kampung2[] = $data2['kampung'];
+            $jumlah2[] = $data2['jumlah'];
+            $jumlahP2[] = $data2['jumlahP'];
+            $jumlahL2[] = $data2['jumlahL'];
+            $target2[] = $data2['target'];
+        }
+      
+        $query3 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query3 as $data3) {
+            $kabupaten3[] = $data3['kabupaten'];
+            $puskesmas3[] = $data3['puskesmas'];
+            $kampung3[] = $data3['kampung'];
+            $jumlah3[] = $data3['jumlah'];
+            $jumlahP3[] = $data3['jumlahP'];
+            $jumlahL3[] = $data3['jumlahL'];
+            $target3[] = $data3['target'];
+        }
+    
+        $query4 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query4 as $data4) {
+            $kabupaten4[] = $data4['kabupaten'];
+            $puskesmas4[] = $data4['puskesmas'];
+            $kampung4[] = $data4['kampung'];
+            $jumlah4[] = $data4['jumlah'];
+            $jumlahP4[] = $data4['jumlahP'];
+            $jumlahL4[] = $data4['jumlahL'];
+            $target4[] = $data4['target'];
+        }
+      
+        $query5 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query5 as $data5) {
+            $kabupaten5[] = $data5['kabupaten'];
+            $puskesmas5[] = $data5['puskesmas'];
+            $kampung5[] = $data5['kampung'];
+            $jumlah5[] = $data5['jumlah'];
+            $jumlahP5[] = $data5['jumlahP'];
+            $jumlahL5[] = $data5['jumlahL'];
+            $target5[] = $data5['target'];
+        }
+    
+        $query6 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query6 as $data6) {
+            $kabupaten6[] = $data6['kabupaten'];
+            $puskesmas6[] = $data6['puskesmas'];
+            $kampung6[] = $data6['kampung'];
+            $jumlah6[] = $data6['jumlah'];
+            $jumlahP6[] = $data6['jumlahP'];
+            $jumlahL6[] = $data6['jumlahL'];
+            $target6[] = $data6['target'];
+        }
+
+        $query7 = $con->query("
+    SELECT kabupaten.nama_kabupaten as kabupaten, 
+    puskesmas.nama_puskesmas as puskesmas, 
+    kampung.nama_kampung as kampung, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+    ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+  FROM kampung 
+    LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+    LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+    LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+    LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+    LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+  WHERE kabupaten.id_kabupaten = $kabupatenForm
+    AND puskesmas.id_puskesmas = $puskesmasForm
+  GROUP BY kampung.id_kampung
+  ORDER BY kampung.id_kampung
+
+  ");
+
+        foreach ($query7 as $data7) {
+            $kabupaten7[] = $data7['kabupaten'];
+            $puskesmas7[] = $data7['puskesmas'];
+            $kampung7[] = $data7['kampung'];
+            $jumlah7[] = $data7['jumlah'];
+            $jumlahP7[] = $data7['jumlahP'];
+            $jumlahL7[] = $data7['jumlahL'];
+            $target7[] = $data7['target'];
+        }
+
+        $query8 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query8 as $data8) {
+            $kabupaten8[] = $data8['kabupaten'];
+            $puskesmas8[] = $data8['puskesmas'];
+            $kampung8[] = $data8['kampung'];
+            $jumlah8[] = $data8['jumlah'];
+            $jumlahP8[] = $data8['jumlahP'];
+            $jumlahL8[] = $data8['jumlahL'];
+            $target8[] = $data8['target'];
+        }
+
+        $query9 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query9 as $data9) {
+            $kabupaten9[] = $data9['kabupaten'];
+            $puskesmas9[] = $data9['puskesmas'];
+            $kampung9[] = $data9['kampung'];
+            $jumlah9[] = $data9['jumlah'];
+            $jumlahP9[] = $data9['jumlahP'];
+            $jumlahL9[] = $data9['jumlahL'];
+            $target9[] = $data9['target'];
+        }
+      
+      
+        $query10 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query10 as $data10) {
+            $kabupaten10[] = $data10['kabupaten'];
+            $puskesmas10[] = $data10['puskesmas'];
+            $kampung10[] = $data10['kampung'];
+            $jumlah10[] = $data10['jumlah'];
+            $jumlahP10[] = $data10['jumlahP'];
+            $jumlahL10[] = $data10['jumlahL'];
+            $target10[] = $data10['target'];
+        }
+      
+      
+        $query11 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query11 as $data11) {
+            $kabupaten11[] = $data11['kabupaten'];
+            $puskesmas11[] = $data11['puskesmas'];
+            $kampung11[] = $data11['kampung'];
+            $jumlah11[] = $data11['jumlah'];
+            $jumlahP11[] = $data11['jumlahP'];
+            $jumlahL11[] = $data11['jumlahL'];
+            $target11[] = $data11['target'];
+        }
+
+        $query12 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_1_L + kampung.sd_1_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query12 as $data12) {
+            $kabupaten12[] = $data12['kabupaten'];
+            $puskesmas12[] = $data12['puskesmas'];
+            $kampung12[] = $data12['kampung'];
+            $jumlah12[] = $data12['jumlah'];
+            $jumlahP12[] = $data12['jumlahP'];
+            $jumlahL12[] = $data12['jumlahL'];
+            $target12[] = $data12['target'];
+        }
+    
+
+    }  elseif ($antigenForm==16) {
+      $query = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        ");
+
+        foreach ($query as $data) {
+            $kabupaten[] = $data['kabupaten'];
+            $puskesmas[] = $data['puskesmas'];
+            $kampung[] = $data['kampung'];
+            $jumlah[] = $data['jumlah'];
+            $jumlahP[] = $data['jumlahP'];
+            $jumlahL[] = $data['jumlahL'];
+            $target[] = $data['target'];
+        }
+
+        $query1 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+
+        ");
+
+        foreach ($query1 as $data1) {
+            $kabupaten1[] = $data1['kabupaten'];
+            $puskesmas1[] = $data1['puskesmas'];
+            $kampung1[] = $data1['kampung'];
+            $jumlah1[] = $data1['jumlah'];
+            $jumlahP1[] = $data1['jumlahP'];
+            $jumlahL1[] = $data1['jumlahL'];
+            $target1[] = $data1['target'];
+        }
+
+        $query2 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query2 as $data2) {
+            $kabupaten2[] = $data2['kabupaten'];
+            $puskesmas2[] = $data2['puskesmas'];
+            $kampung2[] = $data2['kampung'];
+            $jumlah2[] = $data2['jumlah'];
+            $jumlahP2[] = $data2['jumlahP'];
+            $jumlahL2[] = $data2['jumlahL'];
+            $target2[] = $data2['target'];
+        }
+      
+        $query3 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query3 as $data3) {
+            $kabupaten3[] = $data3['kabupaten'];
+            $puskesmas3[] = $data3['puskesmas'];
+            $kampung3[] = $data3['kampung'];
+            $jumlah3[] = $data3['jumlah'];
+            $jumlahP3[] = $data3['jumlahP'];
+            $jumlahL3[] = $data3['jumlahL'];
+            $target3[] = $data3['target'];
+        }
+    
+        $query4 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query4 as $data4) {
+            $kabupaten4[] = $data4['kabupaten'];
+            $puskesmas4[] = $data4['puskesmas'];
+            $kampung4[] = $data4['kampung'];
+            $jumlah4[] = $data4['jumlah'];
+            $jumlahP4[] = $data4['jumlahP'];
+            $jumlahL4[] = $data4['jumlahL'];
+            $target4[] = $data4['target'];
+        }
+      
+        $query5 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query5 as $data5) {
+            $kabupaten5[] = $data5['kabupaten'];
+            $puskesmas5[] = $data5['puskesmas'];
+            $kampung5[] = $data5['kampung'];
+            $jumlah5[] = $data5['jumlah'];
+            $jumlahP5[] = $data5['jumlahP'];
+            $jumlahL5[] = $data5['jumlahL'];
+            $target5[] = $data5['target'];
+        }
+    
+        $query6 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query6 as $data6) {
+            $kabupaten6[] = $data6['kabupaten'];
+            $puskesmas6[] = $data6['puskesmas'];
+            $kampung6[] = $data6['kampung'];
+            $jumlah6[] = $data6['jumlah'];
+            $jumlahP6[] = $data6['jumlahP'];
+            $jumlahL6[] = $data6['jumlahL'];
+            $target6[] = $data6['target'];
+        }
+
+        $query7 = $con->query("
+    SELECT kabupaten.nama_kabupaten as kabupaten, 
+    puskesmas.nama_puskesmas as puskesmas, 
+    kampung.nama_kampung as kampung, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+    ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+  FROM kampung 
+    LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+    LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+    LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+    LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+    LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+  WHERE kabupaten.id_kabupaten = $kabupatenForm
+    AND puskesmas.id_puskesmas = $puskesmasForm
+  GROUP BY kampung.id_kampung
+  ORDER BY kampung.id_kampung
+
+  ");
+
+        foreach ($query7 as $data7) {
+            $kabupaten7[] = $data7['kabupaten'];
+            $puskesmas7[] = $data7['puskesmas'];
+            $kampung7[] = $data7['kampung'];
+            $jumlah7[] = $data7['jumlah'];
+            $jumlahP7[] = $data7['jumlahP'];
+            $jumlahL7[] = $data7['jumlahL'];
+            $target7[] = $data7['target'];
+        }
+
+        $query8 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query8 as $data8) {
+            $kabupaten8[] = $data8['kabupaten'];
+            $puskesmas8[] = $data8['puskesmas'];
+            $kampung8[] = $data8['kampung'];
+            $jumlah8[] = $data8['jumlah'];
+            $jumlahP8[] = $data8['jumlahP'];
+            $jumlahL8[] = $data8['jumlahL'];
+            $target8[] = $data8['target'];
+        }
+
+        $query9 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query9 as $data9) {
+            $kabupaten9[] = $data9['kabupaten'];
+            $puskesmas9[] = $data9['puskesmas'];
+            $kampung9[] = $data9['kampung'];
+            $jumlah9[] = $data9['jumlah'];
+            $jumlahP9[] = $data9['jumlahP'];
+            $jumlahL9[] = $data9['jumlahL'];
+            $target9[] = $data9['target'];
+        }
+      
+      
+        $query10 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query10 as $data10) {
+            $kabupaten10[] = $data10['kabupaten'];
+            $puskesmas10[] = $data10['puskesmas'];
+            $kampung10[] = $data10['kampung'];
+            $jumlah10[] = $data10['jumlah'];
+            $jumlahP10[] = $data10['jumlahP'];
+            $jumlahL10[] = $data10['jumlahL'];
+            $target10[] = $data10['target'];
+        }
+      
+      
+        $query11 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query11 as $data11) {
+            $kabupaten11[] = $data11['kabupaten'];
+            $puskesmas11[] = $data11['puskesmas'];
+            $kampung11[] = $data11['kampung'];
+            $jumlah11[] = $data11['jumlah'];
+            $jumlahP11[] = $data11['jumlahP'];
+            $jumlahL11[] = $data11['jumlahL'];
+            $target11[] = $data11['target'];
+        }
+
+        $query12 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_2_L + kampung.sd_2_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query12 as $data12) {
+            $kabupaten12[] = $data12['kabupaten'];
+            $puskesmas12[] = $data12['puskesmas'];
+            $kampung12[] = $data12['kampung'];
+            $jumlah12[] = $data12['jumlah'];
+            $jumlahP12[] = $data12['jumlahP'];
+            $jumlahL12[] = $data12['jumlahL'];
+            $target12[] = $data12['target'];
+        }
+    
+
+    }  elseif ($antigenForm==17 || $antigenForm==18) {
+      $query = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        ");
+
+        foreach ($query as $data) {
+            $kabupaten[] = $data['kabupaten'];
+            $puskesmas[] = $data['puskesmas'];
+            $kampung[] = $data['kampung'];
+            $jumlah[] = $data['jumlah'];
+            $jumlahP[] = $data['jumlahP'];
+            $jumlahL[] = $data['jumlahL'];
+            $target[] = $data['target'];
+        }
+
+        $query1 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+
+        ");
+
+        foreach ($query1 as $data1) {
+            $kabupaten1[] = $data1['kabupaten'];
+            $puskesmas1[] = $data1['puskesmas'];
+            $kampung1[] = $data1['kampung'];
+            $jumlah1[] = $data1['jumlah'];
+            $jumlahP1[] = $data1['jumlahP'];
+            $jumlahL1[] = $data1['jumlahL'];
+            $target1[] = $data1['target'];
+        }
+
+        $query2 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query2 as $data2) {
+            $kabupaten2[] = $data2['kabupaten'];
+            $puskesmas2[] = $data2['puskesmas'];
+            $kampung2[] = $data2['kampung'];
+            $jumlah2[] = $data2['jumlah'];
+            $jumlahP2[] = $data2['jumlahP'];
+            $jumlahL2[] = $data2['jumlahL'];
+            $target2[] = $data2['target'];
+        }
+      
+        $query3 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query3 as $data3) {
+            $kabupaten3[] = $data3['kabupaten'];
+            $puskesmas3[] = $data3['puskesmas'];
+            $kampung3[] = $data3['kampung'];
+            $jumlah3[] = $data3['jumlah'];
+            $jumlahP3[] = $data3['jumlahP'];
+            $jumlahL3[] = $data3['jumlahL'];
+            $target3[] = $data3['target'];
+        }
+    
+        $query4 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query4 as $data4) {
+            $kabupaten4[] = $data4['kabupaten'];
+            $puskesmas4[] = $data4['puskesmas'];
+            $kampung4[] = $data4['kampung'];
+            $jumlah4[] = $data4['jumlah'];
+            $jumlahP4[] = $data4['jumlahP'];
+            $jumlahL4[] = $data4['jumlahL'];
+            $target4[] = $data4['target'];
+        }
+      
+        $query5 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query5 as $data5) {
+            $kabupaten5[] = $data5['kabupaten'];
+            $puskesmas5[] = $data5['puskesmas'];
+            $kampung5[] = $data5['kampung'];
+            $jumlah5[] = $data5['jumlah'];
+            $jumlahP5[] = $data5['jumlahP'];
+            $jumlahL5[] = $data5['jumlahL'];
+            $target5[] = $data5['target'];
+        }
+    
+        $query6 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query6 as $data6) {
+            $kabupaten6[] = $data6['kabupaten'];
+            $puskesmas6[] = $data6['puskesmas'];
+            $kampung6[] = $data6['kampung'];
+            $jumlah6[] = $data6['jumlah'];
+            $jumlahP6[] = $data6['jumlahP'];
+            $jumlahL6[] = $data6['jumlahL'];
+            $target6[] = $data6['target'];
+        }
+
+        $query7 = $con->query("
+    SELECT kabupaten.nama_kabupaten as kabupaten, 
+    puskesmas.nama_puskesmas as puskesmas, 
+    kampung.nama_kampung as kampung, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+    ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+  FROM kampung 
+    LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+    LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+    LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+    LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+    LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+  WHERE kabupaten.id_kabupaten = $kabupatenForm
+    AND puskesmas.id_puskesmas = $puskesmasForm
+  GROUP BY kampung.id_kampung
+  ORDER BY kampung.id_kampung
+
+  ");
+
+        foreach ($query7 as $data7) {
+            $kabupaten7[] = $data7['kabupaten'];
+            $puskesmas7[] = $data7['puskesmas'];
+            $kampung7[] = $data7['kampung'];
+            $jumlah7[] = $data7['jumlah'];
+            $jumlahP7[] = $data7['jumlahP'];
+            $jumlahL7[] = $data7['jumlahL'];
+            $target7[] = $data7['target'];
+        }
+
+        $query8 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query8 as $data8) {
+            $kabupaten8[] = $data8['kabupaten'];
+            $puskesmas8[] = $data8['puskesmas'];
+            $kampung8[] = $data8['kampung'];
+            $jumlah8[] = $data8['jumlah'];
+            $jumlahP8[] = $data8['jumlahP'];
+            $jumlahL8[] = $data8['jumlahL'];
+            $target8[] = $data8['target'];
+        }
+
+        $query9 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query9 as $data9) {
+            $kabupaten9[] = $data9['kabupaten'];
+            $puskesmas9[] = $data9['puskesmas'];
+            $kampung9[] = $data9['kampung'];
+            $jumlah9[] = $data9['jumlah'];
+            $jumlahP9[] = $data9['jumlahP'];
+            $jumlahL9[] = $data9['jumlahL'];
+            $target9[] = $data9['target'];
+        }
+      
+      
+        $query10 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query10 as $data10) {
+            $kabupaten10[] = $data10['kabupaten'];
+            $puskesmas10[] = $data10['puskesmas'];
+            $kampung10[] = $data10['kampung'];
+            $jumlah10[] = $data10['jumlah'];
+            $jumlahP10[] = $data10['jumlahP'];
+            $jumlahL10[] = $data10['jumlahL'];
+            $target10[] = $data10['target'];
+        }
+      
+      
+        $query11 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query11 as $data11) {
+            $kabupaten11[] = $data11['kabupaten'];
+            $puskesmas11[] = $data11['puskesmas'];
+            $kampung11[] = $data11['kampung'];
+            $jumlah11[] = $data11['jumlah'];
+            $jumlahP11[] = $data11['jumlahP'];
+            $jumlahL11[] = $data11['jumlahL'];
+            $target11[] = $data11['target'];
+        }
+
+        $query12 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_5_L + kampung.sd_5_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query12 as $data12) {
+            $kabupaten12[] = $data12['kabupaten'];
+            $puskesmas12[] = $data12['puskesmas'];
+            $kampung12[] = $data12['kampung'];
+            $jumlah12[] = $data12['jumlah'];
+            $jumlahP12[] = $data12['jumlahP'];
+            $jumlahL12[] = $data12['jumlahL'];
+            $target12[] = $data12['target'];
+        }
+    
+
+    }  elseif ($antigenForm==19) {
+      $query = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        ");
+
+        foreach ($query as $data) {
+            $kabupaten[] = $data['kabupaten'];
+            $puskesmas[] = $data['puskesmas'];
+            $kampung[] = $data['kampung'];
+            $jumlah[] = $data['jumlah'];
+            $jumlahP[] = $data['jumlahP'];
+            $jumlahL[] = $data['jumlahL'];
+            $target[] = $data['target'];
+        }
+
+        $query1 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 01 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+
+        ");
+
+        foreach ($query1 as $data1) {
+            $kabupaten1[] = $data1['kabupaten'];
+            $puskesmas1[] = $data1['puskesmas'];
+            $kampung1[] = $data1['kampung'];
+            $jumlah1[] = $data1['jumlah'];
+            $jumlahP1[] = $data1['jumlahP'];
+            $jumlahL1[] = $data1['jumlahL'];
+            $target1[] = $data1['target'];
+        }
+
+        $query2 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 02 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query2 as $data2) {
+            $kabupaten2[] = $data2['kabupaten'];
+            $puskesmas2[] = $data2['puskesmas'];
+            $kampung2[] = $data2['kampung'];
+            $jumlah2[] = $data2['jumlah'];
+            $jumlahP2[] = $data2['jumlahP'];
+            $jumlahL2[] = $data2['jumlahL'];
+            $target2[] = $data2['target'];
+        }
+      
+        $query3 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 03 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query3 as $data3) {
+            $kabupaten3[] = $data3['kabupaten'];
+            $puskesmas3[] = $data3['puskesmas'];
+            $kampung3[] = $data3['kampung'];
+            $jumlah3[] = $data3['jumlah'];
+            $jumlahP3[] = $data3['jumlahP'];
+            $jumlahL3[] = $data3['jumlahL'];
+            $target3[] = $data3['target'];
+        }
+    
+        $query4 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 04 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query4 as $data4) {
+            $kabupaten4[] = $data4['kabupaten'];
+            $puskesmas4[] = $data4['puskesmas'];
+            $kampung4[] = $data4['kampung'];
+            $jumlah4[] = $data4['jumlah'];
+            $jumlahP4[] = $data4['jumlahP'];
+            $jumlahL4[] = $data4['jumlahL'];
+            $target4[] = $data4['target'];
+        }
+      
+        $query5 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 05 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query5 as $data5) {
+            $kabupaten5[] = $data5['kabupaten'];
+            $puskesmas5[] = $data5['puskesmas'];
+            $kampung5[] = $data5['kampung'];
+            $jumlah5[] = $data5['jumlah'];
+            $jumlahP5[] = $data5['jumlahP'];
+            $jumlahL5[] = $data5['jumlahL'];
+            $target5[] = $data5['target'];
+        }
+    
+        $query6 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 06 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query6 as $data6) {
+            $kabupaten6[] = $data6['kabupaten'];
+            $puskesmas6[] = $data6['puskesmas'];
+            $kampung6[] = $data6['kampung'];
+            $jumlah6[] = $data6['jumlah'];
+            $jumlahP6[] = $data6['jumlahP'];
+            $jumlahL6[] = $data6['jumlahL'];
+            $target6[] = $data6['target'];
+        }
+
+        $query7 = $con->query("
+    SELECT kabupaten.nama_kabupaten as kabupaten, 
+    puskesmas.nama_puskesmas as puskesmas, 
+    kampung.nama_kampung as kampung, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+    SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 07 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+    ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+  FROM kampung 
+    LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+    LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+    LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+    LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+    LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+  WHERE kabupaten.id_kabupaten = $kabupatenForm
+    AND puskesmas.id_puskesmas = $puskesmasForm
+  GROUP BY kampung.id_kampung
+  ORDER BY kampung.id_kampung
+
+  ");
+
+        foreach ($query7 as $data7) {
+            $kabupaten7[] = $data7['kabupaten'];
+            $puskesmas7[] = $data7['puskesmas'];
+            $kampung7[] = $data7['kampung'];
+            $jumlah7[] = $data7['jumlah'];
+            $jumlahP7[] = $data7['jumlahP'];
+            $jumlahL7[] = $data7['jumlahL'];
+            $target7[] = $data7['target'];
+        }
+
+        $query8 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 08 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query8 as $data8) {
+            $kabupaten8[] = $data8['kabupaten'];
+            $puskesmas8[] = $data8['puskesmas'];
+            $kampung8[] = $data8['kampung'];
+            $jumlah8[] = $data8['jumlah'];
+            $jumlahP8[] = $data8['jumlahP'];
+            $jumlahL8[] = $data8['jumlahL'];
+            $target8[] = $data8['target'];
+        }
+
+        $query9 = $con->query("
+          SELECT kabupaten.nama_kabupaten as kabupaten, 
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+          SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 09 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+          ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+          LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
+        
+        ");
+
+        foreach ($query9 as $data9) {
+            $kabupaten9[] = $data9['kabupaten'];
+            $puskesmas9[] = $data9['puskesmas'];
+            $kampung9[] = $data9['kampung'];
+            $jumlah9[] = $data9['jumlah'];
+            $jumlahP9[] = $data9['jumlahP'];
+            $jumlahL9[] = $data9['jumlahL'];
+            $target9[] = $data9['target'];
+        }
+      
+      
+        $query10 = $con->query("
+        SELECT kabupaten.nama_kabupaten as kabupaten, 
+        puskesmas.nama_puskesmas as puskesmas, 
+        kampung.nama_kampung as kampung, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+        SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 10 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+        ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+      FROM kampung 
+        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+        LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+        LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+      WHERE kabupaten.id_kabupaten = $kabupatenForm
+        AND puskesmas.id_puskesmas = $puskesmasForm
+      GROUP BY kampung.id_kampung
+      ORDER BY kampung.id_kampung
+      
+      ");
+
+        foreach ($query10 as $data10) {
+            $kabupaten10[] = $data10['kabupaten'];
+            $puskesmas10[] = $data10['puskesmas'];
+            $kampung10[] = $data10['kampung'];
+            $jumlah10[] = $data10['jumlah'];
+            $jumlahP10[] = $data10['jumlahP'];
+            $jumlahL10[] = $data10['jumlahL'];
+            $target10[] = $data10['target'];
+        }
+      
+      
+        $query11 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 11 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query11 as $data11) {
+            $kabupaten11[] = $data11['kabupaten'];
+            $puskesmas11[] = $data11['puskesmas'];
+            $kampung11[] = $data11['kampung'];
+            $jumlah11[] = $data11['jumlah'];
+            $jumlahP11[] = $data11['jumlahP'];
+            $jumlahL11[] = $data11['jumlahL'];
+            $target11[] = $data11['target'];
+        }
+
+        $query12 = $con->query("
+      SELECT kabupaten.nama_kabupaten as kabupaten, 
+      puskesmas.nama_puskesmas as puskesmas, 
+      kampung.nama_kampung as kampung, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm THEN 1 ELSE 0 END) as jumlah, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND data_individu.jenis_kelamin = 'P' THEN 1 ELSE 0 END) as jumlahP, 
+      SUM(CASE WHEN antigen.id_antigen=$antigenForm AND imunisasi.status='sudah' AND MONTH(imunisasi.tanggal_pemberian) = 12 AND YEAR(imunisasi.tanggal_pemberian) = $tahunForm AND  data_individu.jenis_kelamin = 'L' THEN 1 ELSE 0 END) as jumlahL, 
+      ROUND((ROUND(AVG(kampung.sd_6_L + kampung.sd_6_P),0))*0.95) as target
+    FROM kampung 
+      LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+      LEFT JOIN imunisasi ON imunisasi.id_anak = data_individu.id_anak
+      LEFT JOIN antigen ON imunisasi.id_antigen = antigen.id_antigen
+      LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+      LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+    WHERE kabupaten.id_kabupaten = $kabupatenForm
+      AND puskesmas.id_puskesmas = $puskesmasForm
+    GROUP BY kampung.id_kampung
+    ORDER BY kampung.id_kampung
+    
+    ");
+
+        foreach ($query12 as $data12) {
+            $kabupaten12[] = $data12['kabupaten'];
+            $puskesmas12[] = $data12['puskesmas'];
+            $kampung12[] = $data12['kampung'];
+            $jumlah12[] = $data12['jumlah'];
+            $jumlahP12[] = $data12['jumlahP'];
+            $jumlahL12[] = $data12['jumlahL'];
+            $target12[] = $data12['target'];
+        }
+    
+
     } else {
       $query = $con->query("
         SELECT kabupaten.nama_kabupaten as kabupaten, 

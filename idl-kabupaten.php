@@ -50,8 +50,8 @@ if (isset($_POST['submit'])) {
 
     $query1 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.2) as sasaran
+        SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+        ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.2) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -69,8 +69,8 @@ if (isset($_POST['submit'])) {
 
     $query2 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.4) as sasaran
+        SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+        ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.4) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -88,8 +88,8 @@ if (isset($_POST['submit'])) {
 
     $query3 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.6) as sasaran
+        SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06 OR MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+        ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.6) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -107,8 +107,8 @@ if (isset($_POST['submit'])) {
 
     $query4 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 10 OR MONTH(data_individu.tanggal_idl) = 11 OR MONTH(data_individu.tanggal_idl) = 12) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.8) as sasaran
+        SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+        ROUND((kabupaten.surviving_infant_L + kabupaten.surviving_infant_P)*0.8) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas

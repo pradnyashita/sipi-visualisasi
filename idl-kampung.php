@@ -91,7 +91,7 @@ if (isset($_POST['submit'])) {
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
           kampung.nama_kampung as kampung,
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
           ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.4) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
           kampung.nama_kampung as kampung,
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06 OR MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
           ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.6) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
@@ -139,7 +139,7 @@ if (isset($_POST['submit'])) {
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
           kampung.nama_kampung as kampung,
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 10 OR MONTH(data_individu.tanggal_idl) = 11 OR MONTH(data_individu.tanggal_idl) = 12) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
+          SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
           ROUND((kampung.surviving_infant_L + kampung.surviving_infant_P)*0.8) as sasaran
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
