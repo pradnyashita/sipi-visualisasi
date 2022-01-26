@@ -1,7 +1,6 @@
+<!-- NB PENTING: di dalem query ada variabel $ -->
+
 <!-- QUARTER 1 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -16,15 +15,9 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         WHERE kabupaten.id_kabupaten = $kabupatenForm
         GROUP BY kampung.id_kampung
         ORDER BY kampung.id_kampung
-        
-
-?>
-
+ 
 
 <!-- QUARTER 2 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -39,14 +32,9 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         WHERE kabupaten.id_kabupaten = $kabupatenForm
         GROUP BY kampung.id_kampung
         ORDER BY kampung.id_kampung
-        
-
-?>
+ 
 
 <!-- QUARTER 3 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -61,14 +49,9 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         WHERE kabupaten.id_kabupaten = $kabupatenForm
         GROUP BY kampung.id_kampung
         ORDER BY kampung.id_kampung
-        
 
-?>
 
 <!-- QUARTER 4 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -83,6 +66,5 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         WHERE kabupaten.id_kabupaten = $kabupatenForm
         GROUP BY kampung.id_kampung
         ORDER BY kampung.id_kampung
-        
 
-?>
+        

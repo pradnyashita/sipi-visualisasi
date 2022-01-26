@@ -1,7 +1,4 @@
 <!-- QUARTER 1 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -17,13 +14,8 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         ORDER BY kampung.id_kampung
         
 
-?>
-
 
 <!-- QUARTER 2 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -39,12 +31,8 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         ORDER BY kampung.id_kampung
         
 
-?>
 
 <!-- QUARTER 3 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -58,14 +46,10 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         GROUP BY kampung.id_kampung
         ORDER BY kampung.id_kampung
-        
 
-?>
+
 
 <!-- QUARTER 4 -->
-
-<?php
-
 SELECT kabupaten.nama_kabupaten as kabupaten, 
 	puskesmas.nama_puskesmas as puskesmas,
     kampung.nama_kampung as kampung,
@@ -80,5 +64,3 @@ SELECT kabupaten.nama_kabupaten as kabupaten,
         GROUP BY kampung.id_kampung
         ORDER BY kampung.id_kampung
         
-
-?>
