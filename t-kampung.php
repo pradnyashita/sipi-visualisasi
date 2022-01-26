@@ -293,7 +293,7 @@ if (isset($_POST['submit'])) {
                 },
         title: {
             display: true,
-            text: 'Ketercapaian TT pada WUS Hamil & Tidak Hamil',
+            text: 'Ketercapaian TT pada WUS Hamil & Tidak Hamil Tiap Kampung',
             fontSize: 14,
         },
         responsive: true,
@@ -366,7 +366,7 @@ if (isset($_POST['submit'])) {
                 },
         title: {
             display: true,
-            text: 'Ketercapaian TT pada WUS Hamil',
+            text: 'Ketercapaian TT pada WUS Hamil Tiap Kampung',
             fontSize: 14,
         },
         responsive: true,
@@ -440,7 +440,7 @@ if (isset($_POST['submit'])) {
                 },
         title: {
             display: true,
-            text: 'Ketercapaian TT pada WUS Tidak Hamil',
+            text: 'Ketercapaian TT pada WUS Tidak Hamil Tiap Kampung',
             fontSize: 14,
         },
         responsive: true,
