@@ -37,8 +37,7 @@ if (isset($_POST['submit'])) {
     $query = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          (puskesmas.surviving_infant_L + puskesmas.surviving_infant_P) as sasaran
+          SUM(CASE WHEN data_individu.irl = 1 AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -51,15 +50,13 @@ if (isset($_POST['submit'])) {
     foreach ($query as $data) {
         $kabupaten[] = $data['kabupaten'];
         $puskesmas[] = $data['puskesmas'];
-        $idl[] = $data['idl'];
-        $sasaran[] = $data['sasaran'];
+        $irl[] = $data['irl'];
     }
 
     $query1 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.2) as sasaran
+          SUM(CASE WHEN data_individu.irl = 1 AND (MONTH(data_individu.tanggal_irl) = 01 OR MONTH(data_individu.tanggal_irl) = 02 OR MONTH(data_individu.tanggal_irl) = 03) AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -72,15 +69,13 @@ if (isset($_POST['submit'])) {
     foreach ($query1 as $data1) {
       $kabupaten1[] = $data1['kabupaten'];
       $puskesmas1[] = $data1['puskesmas'];
-      $idl1[] = $data1['idl'];
-      $sasaran1[] = $data1['sasaran'];
+      $irl1[] = $data1['irl'];
     }
 
     $query2 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.4) as sasaran
+          SUM(CASE WHEN data_individu.irl = 1 AND (MONTH(data_individu.tanggal_irl) = 01 OR MONTH(data_individu.tanggal_irl) = 02 OR MONTH(data_individu.tanggal_irl) = 03 OR MONTH(data_individu.tanggal_irl) = 04 OR MONTH(data_individu.tanggal_irl) = 05 OR MONTH(data_individu.tanggal_irl) = 06) AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -93,15 +88,13 @@ if (isset($_POST['submit'])) {
     foreach ($query2 as $data2) {
       $kabupaten2[] = $data2['kabupaten'];
       $puskesmas2[] = $data2['puskesmas'];
-      $idl2[] = $data2['idl'];
-      $sasaran2[] = $data2['sasaran'];
+      $irl2[] = $data2['irl'];
     }
 
     $query3 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06 OR MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.6) as sasaran
+          SUM(CASE WHEN data_individu.irl = 1 AND (MONTH(data_individu.tanggal_irl) = 01 OR MONTH(data_individu.tanggal_irl) = 02 OR MONTH(data_individu.tanggal_irl) = 03 OR MONTH(data_individu.tanggal_irl) = 04 OR MONTH(data_individu.tanggal_irl) = 05 OR MONTH(data_individu.tanggal_irl) = 06 OR MONTH(data_individu.tanggal_irl) = 07 OR MONTH(data_individu.tanggal_irl) = 08 OR MONTH(data_individu.tanggal_irl) = 09) AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -114,15 +107,13 @@ if (isset($_POST['submit'])) {
     foreach ($query3 as $data3) {
       $kabupaten3[] = $data3['kabupaten'];
       $puskesmas3[] = $data3['puskesmas'];
-      $idl3[] = $data3['idl'];
-      $sasaran3[] = $data3['sasaran'];
+      $irl3[] = $data3['irl'];
     }
 
     $query4 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.8) as sasaran
+          SUM(CASE WHEN data_individu.irl = 1 AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -135,8 +126,7 @@ if (isset($_POST['submit'])) {
     foreach ($query4 as $data4) {
         $kabupaten4[] = $data4['kabupaten'];
         $puskesmas4[] = $data4['puskesmas'];
-        $idl4[] = $data4['idl'];
-        $sasaran4[] = $data4['sasaran'];
+        $irl4[] = $data4['irl'];
     }
 
 }
@@ -177,41 +167,20 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($puskesmas) ?>,
         datasets: [{
-          label: "Imunisasi Dasar Lengkap (IDL)",
+          label: "Imunisasi Rutin Lengkap (IRL)",
           backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl) ?>,
-          xAxisID: "bar-x-axis1",
-        }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran) ?>,
-          xAxisID: "bar-x-axis2",
+          data: <?php echo json_encode($irl) ?>,
         }]
       };
 
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
-            id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
                       minRotation: 90,
             }
-          }, {
-            display: false,
-            stacked: true,
-            id: "bar-x-axis2",
-            barThickness: 35,
-            type: 'category',
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-            gridLines: {
-              offsetGridLines: true
-            },
-            offset: true
           }],
           yAxes: [{
             stacked: false,
@@ -229,7 +198,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Total Sasaran dan IDL Tahunan Tiap Puskesmas',
+            text: 'Total Sasaran dan IRL Tahunan Tiap Puskesmas',
             fontSize: 14,
         },
         responsive: true,
@@ -254,41 +223,20 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($puskesmas1) ?>,
         datasets: [{
-          label: "Imunisasi Lengkap (IDL)",
+          label: "Imunisasi Rutin Lengkap (IRL)",
           backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl1) ?>,
-          xAxisID: "bar-x-axis1",
-        }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran1) ?>,
-          xAxisID: "bar-x-axis2",
+          data: <?php echo json_encode($irl1) ?>,
         }]
       };
 
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
-            id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
                       minRotation: 90,
             }
-          }, {
-            display: false,
-            stacked: true,
-            id: "bar-x-axis2",
-            barThickness: 35,
-            type: 'category',
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-            gridLines: {
-              offsetGridLines: true
-            },
-            offset: true
           }],
           yAxes: [{
             stacked: false,
@@ -306,7 +254,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (20% Sasaran) dan IDL Quarter 1 Tiap Puskesmas',
+            text: 'Akumulasi IRL Quarter 1 Tiap Puskesmas',
             fontSize: 14,
         },
         responsive: true,
@@ -331,41 +279,20 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($puskesmas2) ?>,
         datasets: [{
-          label: "Imunisasi Lengkap (IDL)",
+          label: "Imunisasi Rutin Lengkap (IRL)",
           backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl2) ?>,
-          xAxisID: "bar-x-axis1",
-        }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran2) ?>,
-          xAxisID: "bar-x-axis2",
+          data: <?php echo json_encode($irl2) ?>,
         }]
       };
 
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
-            id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
                       minRotation: 90,
             }
-          }, {
-            display: false,
-            stacked: true,
-            id: "bar-x-axis2",
-            barThickness: 35,
-            type: 'category',
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-            gridLines: {
-              offsetGridLines: true
-            },
-            offset: true
           }],
           yAxes: [{
             stacked: false,
@@ -383,7 +310,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (40% Sasaran) dan IDL Quarter 2 Tiap Puskesmas',
+            text: 'Akumulasi IRL Quarter 2 Tiap Puskesmas',
             fontSize: 14,
         },
         responsive: true,
@@ -408,41 +335,20 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($puskesmas3) ?>,
         datasets: [{
-          label: "Imunisasi Lengkap (IDL)",
+          label: "Imunisasi Rutin Lengkap (IRL)",
           backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl3) ?>,
-          xAxisID: "bar-x-axis1",
-        }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran3) ?>,
-          xAxisID: "bar-x-axis2",
+          data: <?php echo json_encode($irl3) ?>,
         }]
       };
 
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
-            id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
                       minRotation: 90,
             }
-          }, {
-            display: false,
-            stacked: true,
-            id: "bar-x-axis2",
-            barThickness: 35,
-            type: 'category',
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-            gridLines: {
-              offsetGridLines: true
-            },
-            offset: true
           }],
           yAxes: [{
             stacked: false,
@@ -460,7 +366,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (60% Sasaran) dan IDL Quarter 3 Tiap Puskesmas',
+            text: 'Akumulasi IRL Quarter 3 Tiap Puskesmas',
             fontSize: 14,
         },
         responsive: true,
@@ -485,41 +391,20 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($puskesmas4) ?>,
         datasets: [{
-          label: "Imunisasi Lengkap (IDL)",
+          label: "Imunisasi Rutin Lengkap (IRL)",
           backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl4) ?>,
-          xAxisID: "bar-x-axis1",
-        }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran4) ?>,
-          xAxisID: "bar-x-axis2",
+          data: <?php echo json_encode($irl4) ?>,
         }]
       };
 
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
-            id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
                       minRotation: 90,
             }
-          }, {
-            display: false,
-            stacked: true,
-            id: "bar-x-axis2",
-            barThickness: 35,
-            type: 'category',
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-            gridLines: {
-              offsetGridLines: true
-            },
-            offset: true
           }],
           yAxes: [{
             stacked: false,
@@ -537,7 +422,7 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (80% Sasaran) dan IDL Quarter 4 Tiap Puskesmas',
+            text: 'Akumulasi IRL Quarter 4 Tiap Puskesmas',
             fontSize: 14,
         },
         responsive: true,
@@ -556,6 +441,7 @@ if (isset($_POST['submit'])) {
           console.log(window.outerWidth)
       }
 </script>
+
 
 </body>
 </html>

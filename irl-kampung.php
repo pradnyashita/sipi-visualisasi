@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
           kampung.nama_kampung as kampung,
-          SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
+          SUM(CASE WHEN data_individu.irl = 1 AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
@@ -58,275 +58,96 @@ if (isset($_POST['submit'])) {
         $kabupaten[] = $data['kabupaten'];
         $puskesmas[] = $data['puskesmas'];
         $kampung[] = $data['kampung'];
-        $idl[] = $data['idl'];
+        $irl[] = $data['irl'];
     }
 
     $query1 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung,
+          SUM(CASE WHEN data_individu.irl = 1 AND (MONTH(data_individu.tanggal_irl) = 01 OR MONTH(data_individu.tanggal_irl) = 02 OR MONTH(data_individu.tanggal_irl) = 03) AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
     ");
 
     foreach ($query1 as $data1) {
-        $kabupaten1[] = $data1['kabupaten'];
-        $puskesmas1[] = $data1['puskesmas'];
-        $kampung1[] = $data1['kampung'];
-        $idl1[] = $data1['idl'];
+      $kabupaten1[] = $data1['kabupaten'];
+      $puskesmas1[] = $data1['puskesmas'];
+      $kampung1[] = $data1['kampung'];
+      $irl1[] = $data1['irl'];
     }
 
     $query2 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung,
+          SUM(CASE WHEN data_individu.irl = 1 AND (MONTH(data_individu.tanggal_irl) = 01 OR MONTH(data_individu.tanggal_irl) = 02 OR MONTH(data_individu.tanggal_irl) = 03 OR MONTH(data_individu.tanggal_irl) = 04 OR MONTH(data_individu.tanggal_irl) = 05 OR MONTH(data_individu.tanggal_irl) = 06) AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
     ");
 
     foreach ($query2 as $data2) {
-        $kabupaten2[] = $data2['kabupaten'];
-        $puskesmas2[] = $data2['puskesmas'];
-        $kampung2[] = $data2['kampung'];
-        $idl2[] = $data2['idl'];
+      $kabupaten2[] = $data2['kabupaten'];
+      $puskesmas2[] = $data2['puskesmas'];
+      $kampung2[] = $data2['kampung'];
+      $irl2[] = $data2['irl'];
     }
-    
+
     $query3 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung,
+          SUM(CASE WHEN data_individu.irl = 1 AND (MONTH(data_individu.tanggal_irl) = 01 OR MONTH(data_individu.tanggal_irl) = 02 OR MONTH(data_individu.tanggal_irl) = 03 OR MONTH(data_individu.tanggal_irl) = 04 OR MONTH(data_individu.tanggal_irl) = 05 OR MONTH(data_individu.tanggal_irl) = 06 OR MONTH(data_individu.tanggal_irl) = 07 OR MONTH(data_individu.tanggal_irl) = 08 OR MONTH(data_individu.tanggal_irl) = 09) AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
     ");
 
     foreach ($query3 as $data3) {
-        $kabupaten3[] = $data3['kabupaten'];
-        $puskesmas3[] = $data3['puskesmas'];
-        $kampung3[] = $data3['kampung'];
-        $idl3[] = $data3['idl'];
+      $kabupaten3[] = $data3['kabupaten'];
+      $puskesmas3[] = $data3['puskesmas'];
+      $kampung3[] = $data3['kampung'];
+      $irl3[] = $data3['irl'];
     }
 
     $query4 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
+          puskesmas.nama_puskesmas as puskesmas, 
+          kampung.nama_kampung as kampung,
+          SUM(CASE WHEN data_individu.irl = 1 AND YEAR(data_individu.tanggal_irl) = $tahunForm THEN 1 ELSE 0 END) as irl
+        FROM kampung 
+          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
+          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
+          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
+        WHERE kabupaten.id_kabupaten = $kabupatenForm
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
     ");
 
     foreach ($query4 as $data4) {
         $kabupaten4[] = $data4['kabupaten'];
         $puskesmas4[] = $data4['puskesmas'];
         $kampung4[] = $data4['kampung'];
-        $idl4[] = $data4['idl'];
+        $irl4[] = $data4['irl'];
     }
-    
-    $query5 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query5 as $data5) {
-        $kabupaten5[] = $data5['kabupaten'];
-        $puskesmas5[] = $data5['puskesmas'];
-        $kampung5[] = $data5['kampung'];
-        $idl5[] = $data5['idl'];
-    }
-
-    $query6 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query6 as $data6) {
-        $kabupaten6[] = $data6['kabupaten'];
-        $puskesmas6[] = $data6['puskesmas'];
-        $kampung6[] = $data6['kampung'];
-        $idl6[] = $data6['idl'];
-    }
-
-    $query7 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query7 as $data7) {
-        $kabupaten7[] = $data7['kabupaten'];
-        $puskesmas7[] = $data7['puskesmas'];
-        $kampung7[] = $data7['kampung'];
-        $idl7[] = $data7['idl'];
-    }
-
-    $query8 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query8 as $data8) {
-        $kabupaten8[] = $data8['kabupaten'];
-        $puskesmas8[] = $data8['puskesmas'];
-        $kampung8[] = $data8['kampung'];
-        $idl8[] = $data8['idl'];
-    }
-
-    $query9 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query9 as $data9) {
-        $kabupaten9[] = $data9['kabupaten'];
-        $puskesmas9[] = $data9['puskesmas'];
-        $kampung9[] = $data9['kampung'];
-        $idl9[] = $data9['idl'];
-    }
-    
-    
-    $query10 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query10 as $data10) {
-        $kabupaten10[] = $data10['kabupaten'];
-        $puskesmas10[] = $data10['puskesmas'];
-        $kampung10[] = $data10['kampung'];
-        $idl10[] = $data10['idl'];
-    }
-    
-    
-    $query11 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query11 as $data11) {
-        $kabupaten11[] = $data11['kabupaten'];
-        $puskesmas11[] = $data11['puskesmas'];
-        $kampung11[] = $data11['kampung'];
-        $idl11[] = $data11['idl'];
-    }
-
-    $query12 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-        puskesmas.nama_puskesmas as puskesmas, 
-        kampung.nama_kampung as kampung,
-        SUM(CASE WHEN data_individu.idl = 1 AND MONTH(data_individu.tanggal_idl) = 01 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl
-    FROM kampung 
-        LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-        LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-        LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-    WHERE kabupaten.id_kabupaten = $kabupatenForm
-        AND puskesmas.id_puskesmas = $puskesmasForm
-    GROUP BY kampung.id_kampung
-    ORDER BY kampung.id_kampung
-    ");
-
-    foreach ($query12 as $data12) {
-        $kabupaten12[] = $data12['kabupaten'];
-        $puskesmas12[] = $data12['puskesmas'];
-        $kampung12[] = $data12['kampung'];
-        $idl12[] = $data12['idl'];
-    }
-
 
 }
 ?>
@@ -335,7 +156,7 @@ if (isset($_POST['submit'])) {
 
 <!-- INI PAGE NYA--------------------------------------------------------------------------------------------------- -->
 
-<div style="width: 1000px;">
+<div style="height: 500px;">
   <canvas id="myChart"></canvas>
 </div>
 
@@ -353,8 +174,8 @@ if (isset($_POST['submit'])) {
 
   var myHTML = '';
 
-  for (var i = 0; i < 12; i++) {
-    myHTML += '<div style="width: 1000px;"><canvas id="myChart' + (i + 1) + '"></canvas><br><br></div>';
+  for (var i = 0; i < 4; i++) {
+    myHTML += '<div style="height: 500px;"><canvas id="myChart' + (i + 1) + '"></canvas><br><br></div>';
   }
 
   wrapper.innerHTML = myHTML
@@ -366,34 +187,55 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($kampung) ?>,
         datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(242, 198, 109)',
-          data: <?php echo json_encode($idl) ?>,
+          label: "Imunisasi Rutin Lengkap (IRL)",
+          backgroundColor: 'rgba(240, 168, 36)',
+          data: <?php echo json_encode($irl) ?>,
         }]
       };
 
       var options = {
         scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
+          xAxes: [{
+            ticks: {
+                      autoSkip: false,
+                      maxRotation: 90,
+                      minRotation: 90,
+            }
+          }],
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              beginAtZero: true,
+              userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
             },
+          }]
+
+        },
         title: {
             display: true,
-            text: 'Jumlah IDL Tahunan',
+            text: 'Total Sasaran dan IRL Tahunan Tiap Kampung',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart").getContext("2d");
       var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'bar',
         data: data,
         options: options
       });
+
+      function shiftBarColumns(){
+          console.log(window.innerWidth);
+          console.log(window.outerWidth)
+      }
 </script>
 
 
@@ -401,34 +243,55 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($kampung1) ?>,
         datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl1) ?>,
+          label: "Imunisasi Rutin Lengkap (IRL)",
+          backgroundColor: 'rgba(240, 168, 36)',
+          data: <?php echo json_encode($irl1) ?>,
         }]
       };
 
       var options = {
         scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
+          xAxes: [{
+            ticks: {
+                      autoSkip: false,
+                      maxRotation: 90,
+                      minRotation: 90,
+            }
+          }],
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              beginAtZero: true,
+              userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
             },
+          }]
+
+        },
         title: {
             display: true,
-            text: 'Jumlah IDL Bulan Januari',
+            text: 'Akumulasi IRL Quarter 1 Tiap Kampung',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart1").getContext("2d");
       var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'bar',
         data: data,
         options: options
       });
+
+      function shiftBarColumns(){
+          console.log(window.innerWidth);
+          console.log(window.outerWidth)
+      }
 </script>
 
 
@@ -436,34 +299,55 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($kampung2) ?>,
         datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl2) ?>,
+          label: "Imunisasi Rutin Lengkap (IRL)",
+          backgroundColor: 'rgba(240, 168, 36)',
+          data: <?php echo json_encode($irl2) ?>,
         }]
       };
 
       var options = {
         scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
+          xAxes: [{
+            ticks: {
+                      autoSkip: false,
+                      maxRotation: 90,
+                      minRotation: 90,
+            }
+          }],
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              beginAtZero: true,
+              userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
             },
+          }]
+
+        },
         title: {
             display: true,
-            text: 'Jumlah IDL Bulan Februari',
+            text: 'Akumulasi IRL Quarter 2 Tiap Kampung',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart2").getContext("2d");
       var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'bar',
         data: data,
         options: options
       });
+
+      function shiftBarColumns(){
+          console.log(window.innerWidth);
+          console.log(window.outerWidth)
+      }
 </script>
 
 
@@ -471,34 +355,55 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($kampung3) ?>,
         datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl3) ?>,
+          label: "Imunisasi Rutin Lengkap (IRL)",
+          backgroundColor: 'rgba(240, 168, 36)',
+          data: <?php echo json_encode($irl3) ?>,
         }]
       };
 
       var options = {
         scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
+          xAxes: [{
+            ticks: {
+                      autoSkip: false,
+                      maxRotation: 90,
+                      minRotation: 90,
+            }
+          }],
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              beginAtZero: true,
+              userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
             },
+          }]
+
+        },
         title: {
             display: true,
-            text: 'Jumlah IDL Bulan Maret',
+            text: 'Akumulasi IRL Quarter 3 Tiap Kampung',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart3").getContext("2d");
       var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'bar',
         data: data,
         options: options
       });
+
+      function shiftBarColumns(){
+          console.log(window.innerWidth);
+          console.log(window.outerWidth)
+      }
 </script>
 
 
@@ -506,314 +411,55 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($kampung4) ?>,
         datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl4) ?>,
+          label: "Imunisasi Rutin Lengkap (IRL)",
+          backgroundColor: 'rgba(240, 168, 36)',
+          data: <?php echo json_encode($irl4) ?>,
         }]
       };
 
       var options = {
         scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
+          xAxes: [{
+            ticks: {
+                      autoSkip: false,
+                      maxRotation: 90,
+                      minRotation: 90,
+            }
+          }],
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              beginAtZero: true,
+              userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+                 },
             },
+          }]
+
+        },
         title: {
             display: true,
-            text: 'Jumlah IDL Bulan April',
+            text: 'Akumulasi IRL Quarter 4 Tiap Kampung',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart4").getContext("2d");
       var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'bar',
         data: data,
         options: options
       });
-</script>
 
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung5) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl5) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan Mei',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart5").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung6) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl6) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan Juni',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart6").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung7) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl7) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan Juli',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart7").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung8) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl8) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan Agustus',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart8").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung9) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl9) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan September',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart9").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung10) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl10) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan Oktober',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart10").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung11) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl11) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan November',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart11").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
-</script>
-
-
-<script>
-      var data = {
-        labels: <?php echo json_encode($kampung12) ?>,
-        datasets: [{
-          label: "Total IDL",
-          backgroundColor: 'rgba(162, 193, 224)',
-          data: <?php echo json_encode($idl12) ?>,
-        }]
-      };
-
-      var options = {
-        scales: {
-            xAxes: [{
-                ticks: {
-                stepSize: 1,
-                beginAtZero: true,
-                },
-            }],
-            },
-        title: {
-            display: true,
-            text: 'Jumlah IDL Bulan Desember',
-            fontSize: 14,
-        }
-      };
-
-      var ctx = document.getElementById("myChart12").getContext("2d");
-      var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: data,
-        options: options
-      });
+      function shiftBarColumns(){
+          console.log(window.innerWidth);
+          console.log(window.outerWidth)
+      }
 </script>
 
 

@@ -17,6 +17,10 @@
     <input type="text" id="kabupaten" name="kabupatenform">
   </li>
   <li>
+    <label for="puskesmas">Puskesmas</label>
+    <input type="text" id="puskesmas" name="puskesmasform">
+  </li>
+  <li>
     <label for="tahun">Tahun</label>
     <input type="text" id="tahun" name="tahunform">
   </li>
@@ -30,6 +34,7 @@
 <?php 
 if (isset($_POST['submit'])) {
     $kabupatenForm = $_POST['kabupatenform'];
+    $puskesmasForm = $_POST['puskesmasform'];
     $tahunForm = $_POST['tahunform'];
 
     $con = new mysqli("108.136.175.182","root","sipi","sistem_imunisasi");
@@ -37,107 +42,56 @@ if (isset($_POST['submit'])) {
     $query = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          (puskesmas.surviving_infant_L + puskesmas.surviving_infant_P) as sasaran
+          kampung.nama_kampung as kampung,
+          ROUND(SUM(CASE WHEN data_individu.status_t='t1' AND data_individu.jenis_kelamin='p' AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END)/(kampung.wus_tidak_hamil+kampung.wus_hamil)*100) as t1_total,
+          ROUND(SUM(CASE WHEN data_individu.status_t='t1' AND data_individu.status_hamil='hamil' AND data_individu.jenis_kelamin='p' AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END)/(kampung.wus_hamil)*100) as t1_hamil,
+          ROUND(SUM(CASE WHEN data_individu.status_t='t1' AND data_individu.status_hamil='tidak hamil' AND data_individu.jenis_kelamin='p' AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END)/(kampung.wus_tidak_hamil)*100) as t1_tidak_hamil
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-        GROUP BY puskesmas.id_puskesmas
-        ORDER BY puskesmas.id_puskesmas
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
     ");
 
     foreach ($query as $data) {
         $kabupaten[] = $data['kabupaten'];
         $puskesmas[] = $data['puskesmas'];
-        $idl[] = $data['idl'];
-        $sasaran[] = $data['sasaran'];
+        $kampung[] = $data['kampung'];
+        $t1_total[] = $data['t1_total'];
+        $t1_hamil[] = $data['t1_hamil'];
+        $t1_tidak_hamil[] = $data['t1_tidak_hamil'];
     }
 
     $query1 = $con->query("
     SELECT kabupaten.nama_kabupaten as kabupaten, 
           puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.2) as sasaran
+          kampung.nama_kampung as kampung,
+          ROUND(SUM(CASE WHEN data_individu.status_t='t1' AND data_individu.jenis_kelamin='p' AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END)/(kampung.wus_tidak_hamil+kampung.wus_hamil)*100) as t1_total,
+          ROUND(SUM(CASE WHEN data_individu.status_t='t1' AND data_individu.status_hamil='hamil' AND data_individu.jenis_kelamin='p' AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END)/(kampung.wus_hamil)*100) as t1_hamil,
+          ROUND(SUM(CASE WHEN data_individu.status_t='t1' AND data_individu.status_hamil='tidak hamil' AND data_individu.jenis_kelamin='p' AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END)/(kampung.wus_tidak_hamil)*100) as t1_tidak_hamil
         FROM kampung 
           LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
           LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
           LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
         WHERE kabupaten.id_kabupaten = $kabupatenForm
-        GROUP BY puskesmas.id_puskesmas
-        ORDER BY puskesmas.id_puskesmas
+          AND puskesmas.id_puskesmas = $puskesmasForm
+        GROUP BY kampung.id_kampung
+        ORDER BY kampung.id_kampung
     ");
 
     foreach ($query1 as $data1) {
-      $kabupaten1[] = $data1['kabupaten'];
-      $puskesmas1[] = $data1['puskesmas'];
-      $idl1[] = $data1['idl'];
-      $sasaran1[] = $data1['sasaran'];
+        $kabupaten1[] = $data1['kabupaten'];
+        $puskesmas1[] = $data1['puskesmas'];
+        $kampung1[] = $data1['kampung'];
+        $t1_total1[] = $data1['t1_total'];
+        $t1_hamil1[] = $data1['t1_hamil'];
+        $t1_tidak_hamil1[] = $data1['t1_tidak_hamil'];
     }
 
-    $query2 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-          puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.4) as sasaran
-        FROM kampung 
-          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-        WHERE kabupaten.id_kabupaten = $kabupatenForm
-        GROUP BY puskesmas.id_puskesmas
-        ORDER BY puskesmas.id_puskesmas
-    ");
 
-    foreach ($query2 as $data2) {
-      $kabupaten2[] = $data2['kabupaten'];
-      $puskesmas2[] = $data2['puskesmas'];
-      $idl2[] = $data2['idl'];
-      $sasaran2[] = $data2['sasaran'];
-    }
-
-    $query3 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-          puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND (MONTH(data_individu.tanggal_idl) = 01 OR MONTH(data_individu.tanggal_idl) = 02 OR MONTH(data_individu.tanggal_idl) = 03 OR MONTH(data_individu.tanggal_idl) = 04 OR MONTH(data_individu.tanggal_idl) = 05 OR MONTH(data_individu.tanggal_idl) = 06 OR MONTH(data_individu.tanggal_idl) = 07 OR MONTH(data_individu.tanggal_idl) = 08 OR MONTH(data_individu.tanggal_idl) = 09) AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.6) as sasaran
-        FROM kampung 
-          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-        WHERE kabupaten.id_kabupaten = $kabupatenForm
-        GROUP BY puskesmas.id_puskesmas
-        ORDER BY puskesmas.id_puskesmas
-    ");
-
-    foreach ($query3 as $data3) {
-      $kabupaten3[] = $data3['kabupaten'];
-      $puskesmas3[] = $data3['puskesmas'];
-      $idl3[] = $data3['idl'];
-      $sasaran3[] = $data3['sasaran'];
-    }
-
-    $query4 = $con->query("
-    SELECT kabupaten.nama_kabupaten as kabupaten, 
-          puskesmas.nama_puskesmas as puskesmas, 
-          SUM(CASE WHEN data_individu.idl = 1 AND YEAR(data_individu.tanggal_idl) = $tahunForm THEN 1 ELSE 0 END) as idl,
-          ROUND((puskesmas.surviving_infant_L + puskesmas.surviving_infant_P)*0.8) as sasaran
-        FROM kampung 
-          LEFT JOIN data_individu ON data_individu.id_kampung = kampung.id_kampung
-          LEFT JOIN puskesmas ON puskesmas.id_puskesmas = kampung.id_puskesmas
-          LEFT JOIN kabupaten ON kabupaten.id_kabupaten = puskesmas.id_kabupaten
-        WHERE kabupaten.id_kabupaten = $kabupatenForm
-        GROUP BY puskesmas.id_puskesmas
-        ORDER BY puskesmas.id_puskesmas
-    ");
-
-    foreach ($query4 as $data4) {
-        $kabupaten4[] = $data4['kabupaten'];
-        $puskesmas4[] = $data4['puskesmas'];
-        $idl4[] = $data4['idl'];
-        $sasaran4[] = $data4['sasaran'];
-    }
 
 }
 ?>
@@ -175,61 +129,42 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($puskesmas) ?>,
+        labels: <?php echo json_encode($kampung) ?>,
         datasets: [{
-          label: "Imunisasi Dasar Lengkap (IDL)",
+          label: "T1",
           backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl) ?>,
-          xAxisID: "bar-x-axis1",
-        }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran) ?>,
-          xAxisID: "bar-x-axis2",
+          data: <?php echo json_encode($t1_total) ?>,
         }]
       };
 
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
-            id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
                       minRotation: 90,
             }
-          }, {
-            display: false,
-            stacked: true,
-            id: "bar-x-axis2",
-            barThickness: 35,
-            type: 'category',
-            categoryPercentage: 0.8,
-            barPercentage: 0.9,
-            gridLines: {
-              offsetGridLines: true
-            },
-            offset: true
           }],
           yAxes: [{
             stacked: false,
             ticks: {
               beginAtZero: true,
+              min: 0,
+              max: 100,
               userCallback: function(label, index, labels) {
-                     // when the floored value is the same as the value we have a whole number
-                     if (Math.floor(label) === label) {
-                         return label;
-                     }
-                 },
-            },
+                    // when the floored value is the same as the value we have a whole number
+                    if (Math.floor(label) === label) {
+                        return label + '%';
+                    }
+              }
+            }
           }]
 
         },
         title: {
             display: true,
-            text: 'Total Sasaran dan IDL Tahunan Tiap Puskesmas',
+            text: 'Ketercapaian T1 Tahunan Tiap Kampung',
             fontSize: 14,
         },
         responsive: true,
@@ -252,16 +187,16 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($puskesmas1) ?>,
+        labels: <?php echo json_encode($kampung1) ?>,
         datasets: [{
-          label: "Imunisasi Lengkap (IDL)",
-          backgroundColor: 'rgba(240, 168, 36)',
-          data: <?php echo json_encode($idl1) ?>,
+          label: "WUS Hamil (%)",
+          backgroundColor: 'rgba(196, 100, 59)',
+          data: <?php echo json_encode($t1_hamil1) ?>,
           xAxisID: "bar-x-axis1",
         }, {
-          label: "Sasaran",
-          backgroundColor: 'rgba(156, 153, 145, 0.4)',
-          data: <?php echo json_encode($sasaran1) ?>,
+          label: "WUS Tidak Hamil (%)",
+          backgroundColor: 'rgba(67, 48, 186)',
+          data: <?php echo json_encode($t1_tidak_hamil1) ?>,
           xAxisID: "bar-x-axis2",
         }]
       };
@@ -269,9 +204,8 @@ if (isset($_POST['submit'])) {
       var options = {
         scales: {
           xAxes: [{
-            stacked: true,
+            stacked: false,
             id: "bar-x-axis1",
-            barThickness: 20,
             ticks: {
                       autoSkip: false,
                       maxRotation: 90,
@@ -279,11 +213,10 @@ if (isset($_POST['submit'])) {
             }
           }, {
             display: false,
-            stacked: true,
+            stacked: false,
             id: "bar-x-axis2",
-            barThickness: 35,
             type: 'category',
-            categoryPercentage: 0.8,
+            categoryPercentage: 0.9,
             barPercentage: 0.9,
             gridLines: {
               offsetGridLines: true
@@ -294,19 +227,20 @@ if (isset($_POST['submit'])) {
             stacked: false,
             ticks: {
               beginAtZero: true,
+              min: 0,
+              max: 100,
               userCallback: function(label, index, labels) {
-                     // when the floored value is the same as the value we have a whole number
-                     if (Math.floor(label) === label) {
-                         return label;
-                     }
-                 },
-            },
+                    // when the floored value is the same as the value we have a whole number
+                    if (Math.floor(label) === label) {
+                        return label + '%';
+                    }
+              }
+            }
           }]
-
         },
         title: {
             display: true,
-            text: 'Target (20% Sasaran) dan IDL Quarter 1 Tiap Puskesmas',
+            text: 'Akumulasi Ketercapaian T1 WUS Hamil dan Tidak Hamil',
             fontSize: 14,
         },
         responsive: true,
@@ -329,7 +263,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($puskesmas2) ?>,
+        labels: <?php echo json_encode($kampung2) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -383,11 +317,9 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (40% Sasaran) dan IDL Quarter 2 Tiap Puskesmas',
+            text: 'Target (40% Sasaran) dan IDL Quarter 2 Tiap Kampung',
             fontSize: 14,
-        },
-        responsive: true,
-        maintainAspectRatio: false
+        }
       };
 
       var ctx = document.getElementById("myChart2").getContext("2d");
@@ -406,7 +338,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($puskesmas3) ?>,
+        labels: <?php echo json_encode($kampung3) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -460,11 +392,9 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (60% Sasaran) dan IDL Quarter 3 Tiap Puskesmas',
+            text: 'Target (60% Sasaran) dan IDL Quarter 3 Tiap Kampung',
             fontSize: 14,
-        },
-        responsive: true,
-        maintainAspectRatio: false
+        }
       };
 
       var ctx = document.getElementById("myChart3").getContext("2d");
@@ -483,7 +413,7 @@ if (isset($_POST['submit'])) {
 
 <script>
       var data = {
-        labels: <?php echo json_encode($puskesmas4) ?>,
+        labels: <?php echo json_encode($kampung4) ?>,
         datasets: [{
           label: "Imunisasi Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
@@ -537,11 +467,9 @@ if (isset($_POST['submit'])) {
         },
         title: {
             display: true,
-            text: 'Target (80% Sasaran) dan IDL Quarter 4 Tiap Puskesmas',
+            text: 'Target (80% Sasaran) dan IDL Quarter 4 Tiap Kampung',
             fontSize: 14,
-        },
-        responsive: true,
-        maintainAspectRatio: false
+        }
       };
 
       var ctx = document.getElementById("myChart4").getContext("2d");

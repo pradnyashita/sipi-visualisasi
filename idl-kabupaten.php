@@ -131,7 +131,7 @@ if (isset($_POST['submit'])) {
 
 <!-- INI PAGE NYA--------------------------------------------------------------------------------------------------- -->
 
-<div style="width: 1000px;">
+<div style="height: 500px;">
   <canvas id="myChart"></canvas>
 </div>
 
@@ -150,7 +150,7 @@ if (isset($_POST['submit'])) {
   var myHTML = '';
 
   for (var i = 0; i < 4; i++) {
-    myHTML += '<div style="width: 1000px;"><canvas id="myChart' + (i + 1) + '"></canvas><br><br></div>';
+    myHTML += '<div style="height: 500px;"><canvas id="myChart' + (i + 1) + '"></canvas><br><br></div>';
   }
 
   wrapper.innerHTML = myHTML
@@ -162,7 +162,7 @@ if (isset($_POST['submit'])) {
       var data = {
         labels: <?php echo json_encode($kabupaten) ?>,
         datasets: [{
-          label: "Imunisasi Lengkap (IDL)",
+          label: "Imunisasi Dasar Lengkap (IDL)",
           backgroundColor: 'rgba(240, 168, 36)',
           data: <?php echo json_encode($idl) ?>,
           xAxisID: "bar-x-axis1",
@@ -216,7 +216,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Total Sasaran dan IDL Tahunan Tiap Kabupaten',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart").getContext("2d");
@@ -291,7 +293,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target (20% Sasaran) dan IDL Quarter 1 Tiap Kabupaten',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart1").getContext("2d");
@@ -366,7 +370,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target (40% Sasaran) dan IDL Quarter 2 Tiap Kabupaten',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart2").getContext("2d");
@@ -441,7 +447,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target (60% Sasaran) dan IDL Quarter 3 Tiap Kabupaten',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart3").getContext("2d");
@@ -516,7 +524,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target (80% Sasaran) dan IDL Quarter 4 Tiap Kabupaten',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart4").getContext("2d");

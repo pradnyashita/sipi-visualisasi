@@ -427,7 +427,7 @@ if (isset($_POST['submit'])) {
 
 <!-- INI PAGE NYA--------------------------------------------------------------------------------------------------- -->
 
-<div style="width: 1000px;">
+<div style="height: 500px;">
   <canvas id="myChart"></canvas>
 </div>
 
@@ -446,7 +446,7 @@ if (isset($_POST['submit'])) {
   var myHTML = '';
 
   for (var i = 0; i < 12; i++) {
-    myHTML += '<div style="width: 1000px;"><canvas id="myChart' + (i + 1) + '"></canvas><br><br></div>';
+    myHTML += '<div style="height: 500px;"><canvas id="myChart' + (i + 1) + '"></canvas><br><br></div>';
   }
 
   wrapper.innerHTML = myHTML
@@ -512,7 +512,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Imunisasi Tahunan Tiap Antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart").getContext("2d");
@@ -587,7 +589,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Januari Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart1").getContext("2d");
@@ -662,7 +666,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Februari Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart2").getContext("2d");
@@ -737,7 +743,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Maret Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart3").getContext("2d");
@@ -812,7 +820,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan April Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart4").getContext("2d");
@@ -887,7 +897,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Mei Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart5").getContext("2d");
@@ -962,7 +974,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Juni Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart6").getContext("2d");
@@ -1037,7 +1051,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Juli Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart7").getContext("2d");
@@ -1112,7 +1128,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Agustus Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart8").getContext("2d");
@@ -1187,7 +1205,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan September Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart9").getContext("2d");
@@ -1262,7 +1282,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Oktober Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart10").getContext("2d");
@@ -1337,7 +1359,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan November Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart11").getContext("2d");
@@ -1412,7 +1436,9 @@ if (isset($_POST['submit'])) {
             display: true,
             text: 'Target dan Realisasi Bulan Desember Tiap antigen',
             fontSize: 14,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       };
 
       var ctx = document.getElementById("myChart12").getContext("2d");
