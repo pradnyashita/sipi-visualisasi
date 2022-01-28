@@ -1,0 +1,77 @@
+UPDATE kabupaten
+SET
+
+kabupaten.bayi_lahir_L = (SELECT SUM(puskesmas.bayi_lahir_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.bayi_lahir_P = (SELECT SUM(puskesmas.bayi_lahir_P)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.baduta_L = (SELECT SUM(puskesmas.baduta_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.baduta_P = (SELECT SUM(puskesmas.baduta_P)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.surviving_infant_L = (SELECT SUM(puskesmas.surviving_infant_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.surviving_infant_P = (SELECT SUM(puskesmas.surviving_infant_P)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_1_L = (SELECT SUM(puskesmas.sd_1_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_1_P = (SELECT SUM(puskesmas.sd_1_P)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_2_L = (SELECT SUM(puskesmas.sd_2_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_2_P = (SELECT SUM(puskesmas.sd_2_P)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_5_L = (SELECT SUM(puskesmas.sd_5_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_5_P = (SELECT SUM(puskesmas.sd_5_P)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.sd_6_L = (SELECT SUM(puskesmas.sd_6_L)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.wus_hamil = (SELECT SUM(puskesmas.wus_hamil)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten),
+
+kabupaten.wus_tidak_hamil = (SELECT SUM(puskesmas.wus_tidak_hamil)
+FROM puskesmas
+WHERE puskesmas.id_kabupaten = kabupaten.id_kabupaten
+GROUP BY puskesmas.id_kabupaten)
